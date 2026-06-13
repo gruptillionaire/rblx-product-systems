@@ -11,8 +11,10 @@ The following projects were all made solo, with at most one contractor.
 
 ## Project: Infinite Runner
 
-<img width="1562" height="637" alt="image" src="https://github.com/user-attachments/assets/141e6bd0-af2c-4a40-8a93-4e2c3f269dae" />
 <img width="1572" height="646" alt="image" src="https://github.com/user-attachments/assets/8f7fc459-526f-401a-a277-b8a38afea945" />
+<img width="1562" height="637" alt="image" src="https://github.com/user-attachments/assets/141e6bd0-af2c-4a40-8a93-4e2c3f269dae" />
+<img width="1566" height="643" alt="image" src="https://github.com/user-attachments/assets/0842208d-bb48-4a65-99d3-7ee6a65931a0" />
+
 
 - An infinite runner game wherein a player runs as far as they can with their energy, then uses money obtained by distance ran to upgrade speed and maximum energy.
 - 2,000 concurrent users peak
