@@ -1,12 +1,9 @@
+# Roblox Product & Systems Work
+
 ### Featured Projects
 - Infinite Runner -- product analytics, live operations, deterministic validation
 - Turn-Based RPG Battle Simulator -- battle simulation, utility AI, story/state systems
 - Asymmetrical Horror Shooter -- procedural generation, validation, dynamic mesh rendering
-
-
-
-
-# ROBLOX Product & Systems Work
 
 I have spent several years building and operating Roblox-based live consumer products. These are commercial/live projects, so source code is private; this page focuses on product outcomes, technical systems, and design tradeoffs.
 The projects below were built solo, with contractors used only where noted for specific art, UI, or map work.
@@ -63,11 +60,11 @@ This project taught me the value of treating progression curves as product infra
 - Contracted map design and UI design
 - Current story spans from first join up to the first major battle (unreleased)
 
-My most technically deep game built around catching and battling a team of meme-inspired creatures, mostly revolving around the battle simulation mechanic & bespoke classical AI systems.
+My most technically deep game built around catching and battling a team of meme-inspired creatures, focused on reusable battle simulation and classical utility AI systems.
 
 ### Battle
 A turn-based battling engine supporting an N field size format.
-- Battlers have unique stats, types, moves, abilities, evolutions, all of which interact with each other due to a holistic design process.
+- Battlers have unique stats, types, moves, abilities, evolutions, all of which interact with each other due to a data-driven ruleset.
 - Levels, field effects, boss effects, statuses and stat changes keep each battle fresh and interesting to the user
 - The battle state drives UI, move choice, AI decisions, win/loss flow, XP/cash rewards, catching, move learning and general game progression
 - The battle engine is agnostic to the external game, supporting alternative modes: a Roguelike waves mode, unique bosses, trainers & wild battles
@@ -75,7 +72,7 @@ A turn-based battling engine supporting an N field size format.
 ### NPC AI
 A classical use of Utility AI provides an interesting experience that includes more than just the battle engine. Each potential outcome is scored via heuristic evaluation and some noise depending on difficulty.
 - NPCs will attack the user supporting an N field size format based off of the difficulty parameter
-- Higher difficulties allow for a high level play of AI predictions on future turns rather than what information is immediately available
+- Higher difficulties allow the AI to evaluate switches, future-turn risk, and stronger tactical lines.
 - AI is utilised in other areas than battle; for instance upon a loss, the user is sent to a character who offers them shady deals. The character will offer deals and respond to the user with messages based off of what happened in battle, aiming to provide the most attractive deal and the most realistic message line, supporting an immersive experience.
 
 ### Area Rendering
@@ -104,13 +101,13 @@ Upon response from testers, the user's FTUE _(First-Time User Experience)_ was f
 - The first 2 minutes must include the first battle, with no chance for a loss
 - The first 3 minutes must include catching a new battler
 - The first 4 minutes must lightly introduce the plot of the story, and quietly introduce the main points of interest a user would interact with (healing stations, shop stations, et cetera)
-The game being free-to-play means that a user needs to be snared from the beginning before churn. Telemetry was implemented (funnels & custom events) for release as to ensure this FTUE had its churn reduced as much as possible.
+The game being free-to-play means that the opening needs to earn player investment quickly before churn. Telemetry was implemented (funnels & custom events) for release as to ensure this FTUE had its churn reduced as much as possible.
 
 ### Roguelike mode
-As mentioned earlier. A battle simulation for early playtesters, featuring waves rather than the standard story experience. Each wave would provide the user with cash, levels and healing. An alternative mode beside the main game allows for a higher retention as the user can effectively play two different games in one, despite playing the same game. Real-world examples show _Pokémon Showdown!_ just as popular as mainline Pokémon games, even though there is great overlap.
+I also designed a roguelike wave mode for faster playtesting and alternate replay value. A battle simulation for early playtesters, featuring waves rather than the standard story experience. Each wave would provide the user with cash, levels and healing. An alternative mode beside the main game allows for a higher retention as the user can effectively play two different games in one, despite playing the same game. Real-world examples show _Pokémon Showdown!_ just as popular as mainline Pokémon games, even though there is great overlap.
 
 ### Additional Systems
-Personalities affecting battle animations and send-out lines, bosses, 2v1 battles, dynamic battle field size, in-battle familiars, giants / wild events, rigged battler sprites rather than static decals, shops, storage, shinies, daily catches to improve retention... the list goes on.
+Personalities affecting battle animations and send-out lines, bosses, 2v1 battles, dynamic battle field size, in-battle familiars, giants / wild events, rigged battler sprites rather than static decals, shops, storage, shinies, daily catches to improve retention, and more.
 
 ### Screenshots
 
@@ -156,7 +153,7 @@ The most technically impressive visual system, utilising the EditableMesh API (t
 - Via normal discontinuity detection if an edge is detected, connection points are defined at that edge
 - Each point then becomes a vertex for a triangle via the EditableMesh API, converting the points into physical world space geometry
 - Z-layer fighting is avoided via 32 possible layers of blood spatter (after which it would return back to the original, which would underlap, effectively giving 63 possible layers before actual overlap)
-- To avoid hitting API limits, unfocused/irrelevant blood spatters are culled to free up current space
+- To avoid hitting API limits, distant or out-of-view blood spatters are culled to free up current space
 - Supports multiple blood type profiles
 
 https://github.com/user-attachments/assets/0db751c9-21d1-4a1d-a271-5aa1e42c7144
@@ -166,7 +163,7 @@ Doors are rendered completely locally due to the issue with animation lag which 
 - Feedback states designed in Figma for a clean visual on the keypad
 
 ### Gunplay / Local State
-The server tracks state history to ensure gunplay is fair and smooth, validating client-claimed gunshots against it. Upon a valid shot the target will be hit.
+The server tracks timestamped state history for basic lag compensation, validating client-claimed gunshots against it. Upon a valid shot the target will be hit.
 - Gun state (magazine capacity, one-in-the-chamber, et cetera) is saved upon dropping and picking up the weapon
 - Server gun authorisation is required to be based off of local state -- doors specifically posed an issue, as it may be in the 'open' state while the server geometry remains static. A custom raycast handler allows *all* raycasts (including SCP-173's view raycasts) to respect doors based off of % open as well as door panel size. If a raycast hits a door part, and that part should be open, another raycast with the remaining distance is immediately fired in the same direction. This allows the server to respect client door states.
 - Client-side viewmodel is constructed separately to the third-person viewmodel. Animations are reused via locally simulated inverse kinematic control, which allows for procedural limb animation towards any item's hold points
@@ -223,7 +220,7 @@ Monsters use meshes and bones (made in Blender) for animations, allowing for uni
 both of which interact with the velocity of its ancestors on a spring-based PID control / transfer functions.
 
 ### Audio Systems
-Wiring up the AudioPlayer/AudioEmitter pipeline allows users to project their voice at multiple places at once, useful for intercom / proximity voice chat / radio systems, as well as hear other people, useful for spectator chats and more. Audio is thus forced to be rendered by the client.
+Wiring up the AudioPlayer/AudioEmitter pipeline allows users to project their voice at multiple places at once, useful for intercom / proximity voice chat / radio systems, as well as hear other people, useful for spectator chats and more. Audio presentation is therefore handled client-side.
 
 ### Screenshots
 
