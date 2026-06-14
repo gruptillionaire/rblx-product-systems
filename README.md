@@ -1,3 +1,11 @@
+### Featured Projects
+- Infinite Runner -- product analytics, live operations, deterministic validation
+- Turn-Based RPG Battle Simulator -- battle simulation, utility AI, story/state systems
+- Asymmetrical Horror Shooter -- procedural generation, validation, dynamic mesh rendering
+
+
+
+
 # ROBLOX Product & Systems Work
 
 I have spent several years building and operating Roblox-based live consumer products. These are commercial/live projects, so source code is private; this page focuses on product outcomes, technical systems, and design tradeoffs.
@@ -18,17 +26,18 @@ The projects below were built solo, with contractors used only where noted for s
 
 - Infinite runner where players spend energy to travel distance, earn currency, and upgrade speed, energy, and abilities.
 - Reached 2,000+ concurrent users at peak
-- Sustained a strong launch period, then saw a second activity spike after a Christmas updated was released
+- Sustained a strong launch period, then saw a second activity spike after a Christmas update was released
 <img width="1470" height="573" alt="image" src="https://github.com/user-attachments/assets/19c32c4c-8455-4962-82c6-01f629d187ba" />
 
 Initial metrics showed weak retention and session length. I combined user feedback with progression modelling, then adjusted upgrade curves and reward pacing to make early progress feel more responsive.
 
 After the changes, average session length increased from ~9 minutes to ~15 minutes, and D1 retention improved from ~5% to ~12%. The goal was not just to add content, but to tune the first-session economy so players reached meaningful upgrades sooner.
 
-Initial metrics were quite poor. I took user feedback into account, ran mathematical models to curve progression to be more responsive, leading to a rise in average playtime by about 50%, from 9 minutes to a solid 15 minutes, which it currently remains on, and raising day 1 retention to a ~7% additive lift, from 5% to ~12%.
-<img width="608" height="222" alt="image" src="https://github.com/user-attachments/assets/1587424c-57e9-4061-a632-d8110daedbf9" />
 <img width="1482" height="575" alt="image" src="https://github.com/user-attachments/assets/45a83374-84c9-4159-967c-6526a77be2fb" />
-(The analytics visual can be unpredictable, but as one can see a recent 14.29% user retention would put the game in the top 90th percentile)
+
+<img width="608" height="222" alt="image" src="https://github.com/user-attachments/assets/1587424c-57e9-4061-a632-d8110daedbf9" />
+
+(The analytics visual can be unpredictable, but this recent 14.29% user retention evaluation would put the game in the top 90th percentile)
 
 ### Features:
 - Per-life procedurally generated infinite map
@@ -101,7 +110,7 @@ The game being free-to-play means that a user needs to be snared from the beginn
 As mentioned earlier. A battle simulation for early playtesters, featuring waves rather than the standard story experience. Each wave would provide the user with cash, levels and healing. An alternative mode beside the main game allows for a higher retention as the user can effectively play two different games in one, despite playing the same game. Real-world examples show _Pokémon Showdown!_ just as popular as mainline Pokémon games, even though there is great overlap.
 
 ### Additional Systems
-Personalities affecting battle animations and send-out lines, bosses, 2v1 battles, dynamic battle field size, in-battle familiars (which is a huge system in of itself!), giants / wild events, rigged battler sprites rather than static decals, shops, storage, shinies, daily catches to improve retention... the list goes on.
+Personalities affecting battle animations and send-out lines, bosses, 2v1 battles, dynamic battle field size, in-battle familiars, giants / wild events, rigged battler sprites rather than static decals, shops, storage, shinies, daily catches to improve retention... the list goes on.
 
 ### Screenshots
 
@@ -116,10 +125,10 @@ Personalities affecting battle animations and send-out lines, bosses, 2v1 battle
 <img width="1572" height="597" alt="image" src="https://github.com/user-attachments/assets/fc115a3e-2712-495f-b483-1d235267ade1" />
 
 - An SCP-genre shooter inspired by games such as SCP:SL and GMod: Breach
-- Features multiple boundary-pushing techniques and emerging technologies for the platform
+- Focuses on advanced client/server architectural splits, procedural generation, and visual feedback systems.
 - My current/most recent project (in-dev)
 
-Features are still in-development. Animations and such are not implemented, everything is subject to change.
+This is an active prototype, so visuals and animation polish are still a work-in-progress.
 
 ### Life State Architecture
 The round life state is mostly standard, with a few unique points.
@@ -168,8 +177,9 @@ The server tracks state history to ensure gunplay is fair and smooth, validating
 
 ### Map Generation
 A prefab-based, socket-driven procedural generation with constraint-based room placement and graph connectivity validation on a discrete grid. Each area chooses its generation type to create an interesting facility layout.
-- Main zone generation is heirarchical: some zones have dependencies that must be satisfied before generation.
+- Main zone generation is hierarchical: some zones have dependencies that must be satisfied before generation.
 - Two current styles of generation: 'Labyrinth' and 'Hub'
+
 **Labyrinth**:
 - Creates an abstract graph on a rectangular grid
 - Carves nodes & edges via randomised 'branch' growth
@@ -184,6 +194,7 @@ Using graph algorithms:
 - Breadth First Search (BFS) / Flood Fill style traversal for connected components, branch size, empty regions, reachability and distance
 - Loop / cycle counting via graph edge / node counts + component checks
 - Validates to avoid a rectangular fill, boring corridors, 'fake' junctions, unused junctions and more.
+
 **Hub**:
 More procedural/skeleton-driven than the Labyrinth system.
 - Place an initial 4-way intersection
@@ -205,7 +216,7 @@ Upon critical error of a map generation, the failed zone will retry. If a zone r
 The facility power, dictated by the 'Guards' spawn role, affects the entire facility via transit, security, or network. The asymmetric consequences of a player's actions leads to a more interesting and unique gameplay. This makes the map feel systemic and 'alive' rather than one static hallway network.
 
 ### Ragdolls, Monster Models/Bones
-As stated before, client ragdolls are made via server markers, cleaned up on round end. This allows for almost unlimited persistent corpses to be rendered very cheaply. This differs from more complex systems wherein a ragdolled player may need to get up, as the ragdoll will not need to be interacted with again. Network cost is negligable.
+As stated before, client ragdolls are made via server markers, cleaned up on round end. This allows for almost unlimited persistent corpses to be rendered very cheaply. This differs from more complex systems wherein a ragdolled player may need to get up, as the ragdoll will not need to be interacted with again. Network cost is negligible.
 Monsters use meshes and bones (made in Blender) for animations, allowing for unique spring-related control systems to control their bodies. Utilised currently is:
 - a droplet system
 - a gross monster stomach system
