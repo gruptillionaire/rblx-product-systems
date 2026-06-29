@@ -8,6 +8,13 @@
 I have spent several years building and operating Roblox-based live consumer products. These are commercial/live projects, so source code is private; this page focuses on product outcomes, technical systems, and design tradeoffs.
 The projects below were built solo, with contractors used only where noted for specific art, UI, or map work.
 
+
+
+> **This repo is a public technical write-up. Analytics or limited codebase walkthroughs can be shared on request where appropriate, including mathematical models, algorithms and formulas applied. The focus of this write-up is architecture & product outcomes.**
+
+
+
+
 ## Scale / Product Context
 
 - Reached 6M+ visits across shipped products
